@@ -1,3 +1,5 @@
+# API Reference
+
 ## downloadCSV
 
 Triggers a download of the provided data as a CSV (Comma Separated Values) file
