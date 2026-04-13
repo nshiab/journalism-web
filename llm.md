@@ -20,9 +20,9 @@ function downloadCSV(data: Record<string, unknown>[], filename: string): void;
 
 ### Parameters
 
-- **`data`**: - An array of JavaScript objects to be converted into CSV format.
+- **`data`**: An array of JavaScript objects to be converted into CSV format.
   Each object represents a row, and its keys will become the CSV headers.
-- **`filename`**: - The desired name for the downloaded CSV file (e.g.,
+- **`filename`**: The desired name for the downloaded CSV file (e.g.,
   `"my_data_export.csv"`, `"report.csv"`). It's recommended to include the
   `.csv` extension.
 
@@ -59,7 +59,7 @@ async function zipToUrls(url: string): Promise<string[]>;
 
 ### Parameters
 
-- **`url`**: - The URL of the ZIP file to download and extract. This URL must be
+- **`url`**: The URL of the ZIP file to download and extract. This URL must be
   accessible from the client-side environment where the function is executed.
 
 ### Returns
