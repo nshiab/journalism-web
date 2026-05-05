@@ -1,6 +1,6 @@
 {
   "name": "@nshiab/journalism-web",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Useful TypeScript functions for journalism projects. This library focuses on functions that rely on specific web browser features.",
   "repository": "https://github.com/nshiab/journalism-web",
   "license": "MIT",
