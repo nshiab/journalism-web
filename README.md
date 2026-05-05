@@ -5,7 +5,8 @@ functions that rely on specific web browser features. It's part of the
 [journalism library](https://github.com/nshiab/journalism).
 
 The library is available on [JSR](https://jsr.io/@nshiab/journalism-web) with
-its [documentation](https://jsr.io/@nshiab/journalism-web/doc).
+its [documentation](https://jsr.io/@nshiab/journalism-web/doc) and on
+[NPM](https://www.npmjs.com/package/@nshiab/journalism-web).
 
 The documentation is also available as the markdown file
 [llm.md](https://github.com/nshiab/journalism-web/blob/main/llm.md), which can
@@ -27,14 +28,29 @@ To install the library, you can use the following commands:
 
 ```bash
 # DENO
-deno install jsr:@nshiab/journalism-web
+deno add jsr:@nshiab/journalism-web
 
 # NODE.JS
-npx jsr add @nshiab/journalism-web
+npm i @nshiab/journalism-web
 
 # BUN
-bunx jsr add @nshiab/journalism-web
+bun add @nshiab/journalism-web
+```
+
+To quickly set up a data project with essential folders, configurations, and
+documentation for AI agents, you can use
+[@nshiab/setup-data-project](https://github.com/nshiab/setup-data-project).
+
+```bash
+# Deno
+deno run -A jsr:@nshiab/setup-data-project
+
+# Node
+npx @nshiab/setup-data-project
+
+# Bun
+bunx @nshiab/setup-data-project
 ```
 
 If you wish to contribute, please check the
-[guidelines](https://github.com/nshiab/journalism/blob/main/CONTRIBUTING.md).
+[guidelines](https://github.com/nshiab/journalism-web-scraping/blob/main/CONTRIBUTING.md).
