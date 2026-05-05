@@ -1,0 +1,27 @@
+{
+  "name": "@nshiab/journalism-web",
+  "version": "1.0.2",
+  "description": "Useful TypeScript functions for journalism projects. This library focuses on functions that rely on specific web browser features.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nshiab/journalism-web"
+  },
+  "license": "MIT",
+  "main": "./script/index.js",
+  "module": "./esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./script/index.js"
+    }
+  },
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "d3-dsv": "^3.0.1",
+    "fflate": "^0.8.2"
+  },
+  "_generatedBy": "dnt@dev"
+}
