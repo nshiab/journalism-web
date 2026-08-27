@@ -29,7 +29,8 @@ export default async function zipToUrls(url: string): Promise<string[]> {
   const buf = new Uint8Array(await res.arrayBuffer());
 
   return new Promise((resolve, reject) => {
-    unzip(buf, (unzipped) => {
+    unzip(buf, (error, unzipped) => {
+      if (error) return reject(error);
       if (!unzipped) return reject(new Error("Failed to unzip file"));
       const urls = Object.entries(unzipped).map(([_filename, content]) => {
         const blob = new Blob([content]);

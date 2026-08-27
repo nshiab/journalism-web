@@ -26,9 +26,9 @@ allowing web applications to generate and offer data exports without requiring
 server-side processing.
 
 The function takes an array of JavaScript objects, converts them into a CSV
-string using `d3-dsv`, creates a Blob, and then simulates a click on a hidden
-anchor tag to prompt the browser to download the file. This is a common and
-effective method for initiating file downloads from the browser.
+string, creates a Blob, and then simulates a click on a hidden anchor tag to
+prompt the browser to download the file. This is a common and effective method
+for initiating file downloads from the browser.
 
 ### Signature
 
