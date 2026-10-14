@@ -1,3 +1,4 @@
+import { test } from "vite-plus/test";
 import { strict as assert } from "node:assert";
 import { strToU8, zipSync } from "fflate";
 import zipToUrls from "../../src/web/zipToUrls.ts";
@@ -7,22 +8,14 @@ async function unzipThroughBrowserBoundary(
 ): Promise<{ contents: string[]; urls: string[] }> {
   const blobs: Blob[] = [];
   const fetchDescriptor = Object.getOwnPropertyDescriptor(globalThis, "fetch");
-  const createObjectUrlDescriptor = Object.getOwnPropertyDescriptor(
-    URL,
-    "createObjectURL",
-  );
+  const createObjectUrlDescriptor = Object.getOwnPropertyDescriptor(URL, "createObjectURL");
 
   Object.defineProperty(globalThis, "fetch", {
     configurable: true,
-    value: () =>
-      Promise.resolve(
-        new Response(
-          zip.buffer.slice(
-            zip.byteOffset,
-            zip.byteOffset + zip.byteLength,
-          ) as ArrayBuffer,
-        ),
-      ),
+    value: (url: string) => {
+      assert.equal(url, "https://example.com/archive.zip");
+      return Promise.resolve(new Response(new Uint8Array(zip)));
+    },
   });
   Object.defineProperty(URL, "createObjectURL", {
     configurable: true,
@@ -56,7 +49,7 @@ function restoreProperty(
   }
 }
 
-Deno.test("zipToUrls extracts a stored entry", async () => {
+test("zipToUrls extracts a stored entry", async () => {
   const result = await unzipThroughBrowserBoundary(
     zipSync({ "stored.txt": strToU8("stored content") }, { level: 0 }),
   );
@@ -67,7 +60,7 @@ Deno.test("zipToUrls extracts a stored entry", async () => {
   });
 });
 
-Deno.test("zipToUrls extracts a DEFLATE entry", async () => {
+test("zipToUrls extracts a DEFLATE entry", async () => {
   const result = await unzipThroughBrowserBoundary(
     zipSync({ "compressed.txt": strToU8("compressed content") }, { level: 6 }),
   );
@@ -78,7 +71,7 @@ Deno.test("zipToUrls extracts a DEFLATE entry", async () => {
   });
 });
 
-Deno.test("zipToUrls extracts multiple entries", async () => {
+test("zipToUrls extracts multiple entries", async () => {
   const result = await unzipThroughBrowserBoundary(
     zipSync({
       "first.txt": strToU8("first"),
@@ -92,15 +85,32 @@ Deno.test("zipToUrls extracts multiple entries", async () => {
   });
 });
 
-Deno.test("zipToUrls resolves an empty archive", async () => {
-  assert.deepEqual(
-    await unzipThroughBrowserBoundary(zipSync({})),
-    { contents: [], urls: [] },
-  );
+test("zipToUrls resolves an empty archive", async () => {
+  assert.deepEqual(await unzipThroughBrowserBoundary(zipSync({})), { contents: [], urls: [] });
 });
 
-Deno.test("zipToUrls rejects corrupt input", async () => {
-  await assert.rejects(() =>
-    unzipThroughBrowserBoundary(strToU8("this is not a ZIP archive"))
-  );
+test("zipToUrls rejects corrupt input", async () => {
+  await assert.rejects(() => unzipThroughBrowserBoundary(strToU8("this is not a ZIP archive")));
+});
+
+test("zipToUrls reports HTTP errors before extracting the response", async () => {
+  const fetchDescriptor = Object.getOwnPropertyDescriptor(globalThis, "fetch");
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: () =>
+      Promise.resolve(
+        new Response("Not found", {
+          status: 404,
+          statusText: "Not Found",
+        }),
+      ),
+  });
+
+  try {
+    await assert.rejects(() => zipToUrls("https://example.com/missing.zip"), {
+      message: "Failed to fetch ZIP: 404 Not Found",
+    });
+  } finally {
+    restoreProperty(globalThis, "fetch", fetchDescriptor);
+  }
 });
