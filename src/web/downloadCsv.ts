@@ -3,12 +3,12 @@
  *
  * The function takes an array of JavaScript objects, converts them into a CSV string, creates a Blob, and then simulates a click on a hidden anchor tag to prompt the browser to download the file. This is a common and effective method for initiating file downloads from the browser.
  *
- * @param data - An array of JavaScript objects to be converted into CSV format. Each object represents a row, and its keys will become the CSV headers.
- * @param filename - The desired name for the downloaded CSV file (e.g., `"my_data_export.csv"`, `"report.csv"`). It's recommended to include the `.csv` extension.
- * @returns `void`
+ * Object and array cell values are serialized as JSON. Dates use UTC formatting.
  *
  * @example
  * ```ts
+ * import { downloadCSV } from "@nshiab/journalism-web";
+ *
  * // Download a simple array of objects as a CSV file.
  *
  * const data = [
@@ -19,12 +19,13 @@
  * console.log("CSV download initiated.");
  * ```
  *
+ * @param data - An array of JavaScript objects to be converted into CSV format. Each object represents a row, and its keys will become the CSV headers.
+ * @param filename - The desired name for the downloaded CSV file (e.g., `"my_data_export.csv"`, `"report.csv"`). It's recommended to include the `.csv` extension.
+ * @returns `void`
+ *
  * @category Web
  */
-export default function downloadCSV(
-  data: { [key: string]: unknown }[],
-  filename: string,
-): void {
+export default function downloadCSV(data: { [key: string]: unknown }[], filename: string): void {
   const csvContent = csvFormat(data);
   const blob = new Blob([csvContent], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
@@ -62,11 +63,19 @@ function csvFormat(data: { [key: string]: unknown }[]): string {
 function formatCsvValue(value: unknown): string {
   if (value == null) return "";
 
-  const stringValue = value instanceof Date ? formatDate(value) : String(value);
+  const stringValue =
+    value instanceof Date
+      ? formatDate(value)
+      : typeof value === "string" ||
+          typeof value === "number" ||
+          typeof value === "boolean" ||
+          typeof value === "bigint" ||
+          typeof value === "symbol" ||
+          typeof value === "function"
+        ? String(value)
+        : (JSON.stringify(value) ?? "");
 
-  return /[",\r\n]/.test(stringValue)
-    ? `"${stringValue.replaceAll('"', '""')}"`
-    : stringValue;
+  return /[",\r\n]/.test(stringValue) ? `"${stringValue.replaceAll('"', '""')}"` : stringValue;
 }
 
 function formatDate(date: Date): string {

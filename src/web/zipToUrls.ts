@@ -5,9 +5,6 @@ import { unzip } from "fflate";
  *
  * Each file within the ZIP archive is converted into a Blob object, and then a corresponding object URL is created.
  *
- * @param url - The URL of the ZIP file to download and extract. This URL must be accessible from the client-side environment where the function is executed.
- * @returns A Promise that resolves to an array of strings, where each string is an object URL for an extracted file.
- *
  * @example
  * ```ts
  * // Fetch a ZIP archive from a URL, extract its contents, and get object URLs for each file.
@@ -19,6 +16,9 @@ import { unzip } from "fflate";
  * img.src = urls[0];
  * document.body.appendChild(img);
  * ```
+ * @param url - The URL of the ZIP file to download and extract. This URL must be accessible from the client-side environment where the function is executed.
+ * @returns A Promise that resolves to an array of strings, where each string is an object URL for an extracted file.
+ *
  * @category Web
  */
 export default async function zipToUrls(url: string): Promise<string[]> {
@@ -33,7 +33,7 @@ export default async function zipToUrls(url: string): Promise<string[]> {
       if (error) return reject(error);
       if (!unzipped) return reject(new Error("Failed to unzip file"));
       const urls = Object.entries(unzipped).map(([_filename, content]) => {
-        const blob = new Blob([content]);
+        const blob = new Blob([new Uint8Array(content)]);
         return URL.createObjectURL(blob);
       });
       resolve(urls);
