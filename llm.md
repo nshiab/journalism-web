@@ -1,4 +1,4 @@
-**Journalism Web v1.0.10**
+**Journalism Web v1.0.11**
 
 ***
 
