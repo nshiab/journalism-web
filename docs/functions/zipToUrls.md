@@ -1,4 +1,4 @@
-[**Journalism Web v1.0.12**](../index.md)
+[**Journalism Web v1.0.13**](../index.md)
 
 ***
 

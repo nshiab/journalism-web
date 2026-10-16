@@ -1,9 +1,9 @@
-# Journalism Web v1.0.12
+# Journalism Web v1.0.13
 
 > Useful TypeScript functions for journalism projects. This library focuses on functions that rely on specific web browser features.
 
-- [README](https://raw.githubusercontent.com/nshiab/journalism-web/v1.0.12/README.md): Installation, examples and usage.
+- [README](https://raw.githubusercontent.com/nshiab/journalism-web/v1.0.13/README.md): Installation, examples and usage.
 
 ## API
-- [downloadCSV](https://raw.githubusercontent.com/nshiab/journalism-web/v1.0.12/docs/functions/downloadCSV.md): downloadCSV function
-- [zipToUrls](https://raw.githubusercontent.com/nshiab/journalism-web/v1.0.12/docs/functions/zipToUrls.md): zipToUrls function
+- [downloadCSV](https://raw.githubusercontent.com/nshiab/journalism-web/v1.0.13/docs/functions/downloadCSV.md): downloadCSV function
+- [zipToUrls](https://raw.githubusercontent.com/nshiab/journalism-web/v1.0.13/docs/functions/zipToUrls.md): zipToUrls function
