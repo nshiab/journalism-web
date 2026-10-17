@@ -34,8 +34,6 @@ document.body.appendChild(button);
 ```
 
 These functions use browser APIs such as the DOM, `Blob`, and object URLs.
-Node.js 24.21.0 or later is required for developing and building this package;
-the functions run in the browser.
 
 ## Documentation
 
